@@ -1,0 +1,37 @@
+.containerDesign {
+  /* margin-top: 100px; */
+  border: 1px solid rgb(223, 223, 223);
+  border-radius: 10px;
+}
+
+.App {
+  font-family: sans-serif;
+  text-align: center;
+  display: grid;
+  grid-template-columns: repeat(4, 1 fr);
+  /* display: flex;
+  flex-wrap: wrap; */
+
+  max-width: 1000px;
+  margin: 20px;
+}
+
+.griditemUI {
+  background-color: #fff;
+  border: 2px solid #fff;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  width: 100%;
+  cursor: -webkit-grab;
+}
+
+.container {
+  background-color: #fff;
+}
+
+.hoverring-check {
+  /* visibility: hidden; */
+}
+
+.hoverring-check:hover {
+  visibility: visible;
+}
