@@ -7,13 +7,22 @@
 .App {
   font-family: sans-serif;
   text-align: center;
-  display: grid;
+  /* display: grid;
   grid-template-columns: repeat(4, 1 fr);
+  grid-gap: 0 25px; */
+
   /* display: flex;
   flex-wrap: wrap; */
 
   max-width: 1000px;
   margin: 20px;
+}
+.test {
+  height: 1015px !important;
+}
+
+.item-one {
+  width: 233px !important;
 }
 
 .griditemUI {

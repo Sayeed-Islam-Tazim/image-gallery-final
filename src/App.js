@@ -75,7 +75,7 @@ const images = [
 
 export default function App() {
   const [items, setItems] = useState(images);
-  const [deleteList, setDeleteList] = useState([]);
+  let [deleteList, setDeleteList] = useState([]);
 
   useEffect(() => {
     //Print data each time the checkbox is "checked" or "unchecked"
@@ -84,7 +84,7 @@ export default function App() {
 
   const onChange = (sourceId, sourceIndex, targetIndex) => {
     const nextState = swap(items, sourceIndex, targetIndex);
-    console.log("Nextstate Items List->", nextState);
+    console.log("Nextstate Items List ->", nextState);
     setItems(nextState);
   };
 
@@ -112,6 +112,7 @@ export default function App() {
     }
     console.log("Remaining Items List -> ", items);
     setItems([...items]);
+    setDeleteList([]);
   };
 
   return (
@@ -132,6 +133,7 @@ export default function App() {
       <Box className="App">
         <GridContextProvider onChange={onChange}>
           <GridDropZone
+            className="test"
             id="items"
             boxesPerRow={4}
             rowHeight={400}
@@ -140,10 +142,9 @@ export default function App() {
             {items.map((item, index) => {
               if (index === 0)
                 return (
-                  <GridItem key={item.id}>
+                  <GridItem key={item.id} className="item-one">
                     <Card
                       variant="outlined"
-                      className="mb-8"
                       lg={{
                         marginRight: 2,
                         marginBottom: 2,
@@ -160,7 +161,6 @@ export default function App() {
                         <CardMedia
                           component="img"
                           height="320"
-                          width="200%"
                           image={item.image}
                           alt="green iguana"
                         />
@@ -172,7 +172,6 @@ export default function App() {
               else
                 return (
                   <GridItem key={item.id}>
-                    {index}
                     <Card
                       variant="outlined"
                       sx={{
@@ -181,19 +180,21 @@ export default function App() {
                         cursor: "-webkit-grab",
                       }}
                     >
-                      <input
-                        type="checkbox"
-                        id={item.id}
-                        value={item.id}
-                        onClick={CheckHandler}
-                      />
-                      <CardMedia
-                        component="img"
-                        height="140"
-                        image={item.image}
-                        alt="green iguana"
-                      />
-                      <CardContent></CardContent>
+                      <CardActionArea>
+                        <input
+                          type="checkbox"
+                          id={item.id}
+                          value={item.id}
+                          onClick={CheckHandler}
+                        />
+                        <CardMedia
+                          component="img"
+                          height="140"
+                          image={item.image}
+                          alt="green iguana"
+                        />
+                        <CardContent></CardContent>
+                      </CardActionArea>
                     </Card>
                   </GridItem>
                 );
