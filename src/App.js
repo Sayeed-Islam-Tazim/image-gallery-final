@@ -2,13 +2,10 @@ import "./App.css";
 import { useEffect, useState } from "react";
 import {
   Card,
-  CardActionArea,
   CardMedia,
   CardContent,
-  Typography,
   Box,
-  CardHeader,
-  Checkbox,
+  CardActionArea,
 } from "@mui/material";
 
 import {
@@ -78,19 +75,18 @@ const images = [
 
 export default function App() {
   const [items, setItems] = useState(images);
-
-  function onChange(sourceId, sourceIndex, targetIndex) {
-    const nextState = swap(items, sourceIndex, targetIndex);
-    setItems(nextState);
-  }
-
-  // const deleteList = [];
-
   const [deleteList, setDeleteList] = useState([]);
 
-  // const CheckHandler = (e) => {
-  //   setPerson((prev) => [...prev, e.target.value]);
-  // };
+  useEffect(() => {
+    //Print data each time the checkbox is "checked" or "unchecked"
+    setItems(items);
+  }, [deleteList, items]);
+
+  const onChange = (sourceId, sourceIndex, targetIndex) => {
+    const nextState = swap(items, sourceIndex, targetIndex);
+    console.log("Nextstate Items List->", nextState);
+    setItems(nextState);
+  };
 
   // with add & remove filter
   const CheckHandler = (e) => {
@@ -102,21 +98,9 @@ export default function App() {
     );
   };
 
-  useEffect(() => {
-    //Print data each time the checkbox is "checked" or "unchecked"
-    console.log(deleteList);
-  }, [deleteList]);
-
-  useEffect(() => {
-    //Print data each time the checkbox is "checked" or "unchecked"
-    console.log(items);
-  }, [items]);
-
-  function handleDelete(event) {
+  const handleDelete = (event) => {
     event.preventDefault();
-    console.log("delete button pressed");
-    console.log(deleteList);
-
+    console.log("Deleted Items List -> ", deleteList);
     for (var i = 0; i < deleteList.length; i++) {
       const objWithIdIndex = items.findIndex(
         (item) => item.id === deleteList[i]
@@ -126,8 +110,9 @@ export default function App() {
         items.splice(objWithIdIndex, 1);
       }
     }
-    console.log(items);
-  }
+    console.log("Remaining Items List -> ", items);
+    setItems([...items]);
+  };
 
   return (
     <div className="container containerDesign">
@@ -149,50 +134,73 @@ export default function App() {
           <GridDropZone
             id="items"
             boxesPerRow={4}
-            rowHeight={280}
+            rowHeight={400}
             style={{ height: 280 * Math.ceil(items.length / 4) }}
           >
-            {items.map((item, index) => (
-              <GridItem key={item.id}>
-                {index}
-                <Card
-                  sx={{
-                    marginRight: 2,
-                    marginBottom: 2,
-                    cursor: "-webkit-grab",
-                  }}
-                >
-                  {/* <Checkbox
-                    className="hoverring-check"
-                    checked={item.checked}
-                    onChange={handleChange.bind(this)}
-                    inputProps={{ "aria-label": "controlled" }}
-                  /> */}
-                  <input
-                    type="checkbox"
-                    id={item.id}
-                    value={item.id}
-                    onClick={CheckHandler}
-                  />
-                  <CardMedia
-                    component="img"
-                    height="140"
-                    image={item.image}
-                    alt="green iguana"
-                  />
-                  <CardContent></CardContent>
-                </Card>
-              </GridItem>
-            ))}
+            {items.map((item, index) => {
+              if (index === 0)
+                return (
+                  <GridItem key={item.id}>
+                    <Card
+                      variant="outlined"
+                      className="mb-8"
+                      lg={{
+                        marginRight: 2,
+                        marginBottom: 2,
+                        cursor: "-webkit-grab",
+                      }}
+                    >
+                      <CardActionArea>
+                        <input
+                          type="checkbox"
+                          id={item.id}
+                          value={item.id}
+                          onClick={CheckHandler}
+                        />
+                        <CardMedia
+                          component="img"
+                          height="320"
+                          width="200%"
+                          image={item.image}
+                          alt="green iguana"
+                        />
+                        <CardContent></CardContent>
+                      </CardActionArea>
+                    </Card>
+                  </GridItem>
+                );
+              else
+                return (
+                  <GridItem key={item.id}>
+                    {index}
+                    <Card
+                      variant="outlined"
+                      sx={{
+                        marginRight: 2,
+                        marginBottom: 2,
+                        cursor: "-webkit-grab",
+                      }}
+                    >
+                      <input
+                        type="checkbox"
+                        id={item.id}
+                        value={item.id}
+                        onClick={CheckHandler}
+                      />
+                      <CardMedia
+                        component="img"
+                        height="140"
+                        image={item.image}
+                        alt="green iguana"
+                      />
+                      <CardContent></CardContent>
+                    </Card>
+                  </GridItem>
+                );
+            })}
           </GridDropZone>
         </GridContextProvider>
-
-        {/* <button type="button" onClick={() => console.log("state", items)}>
-          State
-        </button> */}
       </Box>
     </div>
   );
 }
-
-// export default App;
